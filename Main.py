@@ -28,7 +28,6 @@ def main():
     print("Minecraft Server Manager")
     print("Type 'help' for a list of commands.")
 
-    current_server = None
 
     while True:
         cmd = input(">>> ").strip().lower()
@@ -77,11 +76,16 @@ def main():
                 current_server.send_command(input("Input command (dont use /):").strip())
             else:
                 print("you need to create a server first.")
-
+        elif cmd == "restart":
+            if current_server:
+                current_server.restart()
+            else:
+                print("You need to create a server first.")
+        
         elif cmd == "exit":
             print("Exiting.")
             break
-        
+            
         else:
             print("Unknown command.")
 

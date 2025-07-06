@@ -44,17 +44,35 @@ class Minecraft_server(Server):
         else:
             print("Server is not running or stdin not available.")
 
+    #True is running False is Stoped
+    def check_status(self) -> bool:
+
+        if self.process.poll() is None and self.process is not None:
+            return True
+        else:
+            return False
 
     def stop(self):
         self.send_command("stop")
-#TODO
-#CREATE AND START SERVER DONE
 
-#START STOP RESTART SERVERS
-#CUSTOM SERVER NAME
+   # def restart(self):
+   #     if self.check_status :
+   #         self.stop()
+   #         while self.check_status:
+   #             print("waiting for sever to stop")
+   #             pass
+   #         self.start()
+   #     else:
+   #         print("sever is not running")
+
+
+
+#TODO
 #EDIT CONFIG FILES
 #LIVE SERVER CONSOLE 
 
-
+#DONE
+#CREATE AND START SERVER 
+#START STOP RESTART SERVERS
 
 
