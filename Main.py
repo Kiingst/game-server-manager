@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from games.minecraft.Minecraft import Minecraft_server
+
+from flask import Flask, render_template, request, jsonify
 #create server
 #whate create server is going to do is in the server director we are going to make a folder for a server give it a jar file and eula and run it 
 
@@ -21,9 +23,40 @@ from games.minecraft.Minecraft import Minecraft_server
 #server.download_server_jar("https://piston-data.mojang.com/v1/objects/05e4b48fbc01f0385adb74bcff9751d34552486c/server.jar", "server")
 #server.set_jar("server.jar")
 #server.start()
+current_server = Minecraft_server("test7")
 
 
+app = Flask(__name__)
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+app.run(debug=True)
+
+@app.route("/<user>", methods=["POST"])
+def user():
+    return render_template()
+
+@app.route("/start", methods=["POST"])
+def start():
+    current_server.start()
+    return jsonify({"status": "started"})
+
+@app.route("/stop", methods=["POST"])
+def stop():
+    current_server.stop()
+    return jsonify({"status": "stopped"})
+
+@app.route("/command", methods=["POST"])
+def command():
+    data = request.get_json()
+    if "command" in data:
+        current_server.send_command(data["command"])
+        return jsonify({"status": f"Command sent: {data['command']}"})
+    return jsonify({"error": "No command provided"}), 400
+
+""""
 def main():
     print("Minecraft Server Manager")
     print("Type 'help' for a list of commands.")
@@ -90,3 +123,5 @@ def main():
             print("Unknown command.")
 
 main()
+
+"""
