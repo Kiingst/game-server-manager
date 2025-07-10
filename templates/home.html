@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server Dashboard</title>
+</head>
+<body>
+    <h1>Available Servers</h1>
+    <ul id="serverList"></ul>
+
+    <script>
+        fetch("/static/saved_servers.json")
+            .then(response => response.json())
+            .then(data => {
+                const list = document.getElementById("serverList");
+                data.forEach(server => {
+                    const li = document.createElement("li");
+                    const link = document.createElement("a");
+                    link.href = "/" + server.name; // Link to route like /minecraft
+                    link.textContent = server.name.charAt(0).toUpperCase() + server.name.slice(1);
+                    li.appendChild(link);
+                    list.appendChild(li);
+                });
+            })
+            .catch(error => {
+                console.error("Failed to load server data:", error);
+            });
+    </script>
+</body>
+</html>

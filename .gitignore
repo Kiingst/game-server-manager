@@ -1,2 +1,15 @@
 server/
 /servers
+static/
+
+
+# Python bytecode
+*.pyc
+__pycache__/
+
+# Temporary files
+*.tmp
+*~
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/

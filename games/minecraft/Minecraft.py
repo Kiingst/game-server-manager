@@ -1,10 +1,10 @@
-
-
 import os
+import json
 from pathlib import Path
 import urllib.request
 from games.Server import Server
 import subprocess
+from Server_manager import add_server
 
 class Minecraft_server(Server):
     
@@ -13,6 +13,8 @@ class Minecraft_server(Server):
         self.name = name
         super().__init__(name, "minecraft")
         super().create_server_dir()
+        self.save_to_json()
+        add_server(self.name , self)
 
 
     def set_jar(self, jar_name):
@@ -33,10 +35,13 @@ class Minecraft_server(Server):
         self.process = subprocess.Popen(
 
             ['java', "-Xmx1g", '-Xms1g', '-jar', 'server.jar'],
-            cwd = self.base_path
+            cwd = self.base_path,
+            stdin=subprocess.PIPE,
+            text=True
         )
     
     def send_command(self, command):
+        print(f"{self.process}")
         if self.process and self.process.stdin:
             self.process.stdin.write(command + "\n")
             self.process.stdin.flush()
@@ -54,6 +59,23 @@ class Minecraft_server(Server):
 
     def stop(self):
         self.send_command("stop")
+
+    def save_to_json(self, filename="static/saved_servers.json"):
+        json1 = {
+            "name": self.name,
+            "game": self.game
+
+        }
+        with open(filename, "w") as f:
+            json.dump(json1, f)
+
+    
+    
+
+
+
+
+
 
    # def restart(self):
    #     if self.check_status :

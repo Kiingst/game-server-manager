@@ -1,52 +1,43 @@
 import os
-from pathlib import Path
-from games.minecraft.Minecraft import Minecraft_server
+import json
+from games.minecraft.minecraft_ui import minecraft_Blueprint
+from flask import Flask, render_template, request, jsonify, send_file
+from Server_manager import server_Manager
 
-from flask import Flask, render_template, request, jsonify
-#create server
-#whate create server is going to do is in the server director we are going to make a folder for a server give it a jar file and eula and run it 
 
 #An ALL in one video game server manager that can take config files and change how it acts depending on the game
 
-
 #TODO
-#CREATE AND START SERVER
+#EDIT CONFIG FILES
+#LIVE SERVER CONSOLE
+#Website UI for Servers
 
+
+
+ 
+
+#DONE
+#CREATE AND START SERVER
 #START STOP RESTART SERVERS
 #CUSTOM SERVER NAME
-#EDIT CONFIG FILES
-#LIVE SERVER CONSOLE 
+
+#load servers saved
+server_Man = server_Manager()
+print(server_Man.servers)
 
 
-
-#server = Minecraft_server("test5")
-#server.download_server_jar("https://piston-data.mojang.com/v1/objects/05e4b48fbc01f0385adb74bcff9751d34552486c/server.jar", "server")
-#server.set_jar("server.jar")
-#server.start()
-current_server = Minecraft_server("test7")
-
-
+#load flask add minecraft blueprint
 app = Flask(__name__)
+app.register_blueprint(minecraft_Blueprint, url_prefix="/minecraft")
 
 @app.route("/")
 def index():
-    return render_template("index.html")
-
-app.run(debug=True)
+    #return render_template("index.html")
+    return render_template("home.html")
 
 @app.route("/<user>", methods=["POST"])
 def user():
     return render_template()
-
-@app.route("/start", methods=["POST"])
-def start():
-    current_server.start()
-    return jsonify({"status": "started"})
-
-@app.route("/stop", methods=["POST"])
-def stop():
-    current_server.stop()
-    return jsonify({"status": "stopped"})
 
 @app.route("/command", methods=["POST"])
 def command():
@@ -55,6 +46,15 @@ def command():
         current_server.send_command(data["command"])
         return jsonify({"status": f"Command sent: {data['command']}"})
     return jsonify({"error": "No command provided"}), 400
+
+@app.route("/saved_servers.json")
+def serve_json():
+    return send_file("saved_servers.json")
+
+
+
+
+
 
 """"
 def main():
@@ -125,3 +125,7 @@ def main():
 main()
 
 """
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
