@@ -7,14 +7,17 @@ from Server_manager import server_Manager
 
 #An ALL in one video game server manager that can take config files and change how it acts depending on the game
 
+
+
+#TODO RIGHT NOT Website UI for Servers
+#EACH server needs a coroponding webpage where you can start stop and delete servers
+#Home page lets you create servers
+
+
 #TODO
-#EDIT CONFIG FILES
+#later
+ #EDIT CONFIG FILES
 #LIVE SERVER CONSOLE
-#Website UI for Servers
-
-
-
- 
 
 #DONE
 #CREATE AND START SERVER
@@ -22,8 +25,15 @@ from Server_manager import server_Manager
 #CUSTOM SERVER NAME
 
 #load servers saved
-server_Man = server_Manager()
-print(server_Man.servers)
+
+
+# Breakdown 
+# server_Manager object easily lets you refrence all created servers
+# Main.py is the root where each section builds off 
+# each game will have its own blueprint meaning that it will have its own webpage 
+#each servers bluepint will handle selecting the specific server for that game and running its commands
+
+
 
 
 #load flask add minecraft blueprint
@@ -38,14 +48,6 @@ def index():
 @app.route("/<user>", methods=["POST"])
 def user():
     return render_template()
-
-@app.route("/command", methods=["POST"])
-def command():
-    data = request.get_json()
-    if "command" in data:
-        current_server.send_command(data["command"])
-        return jsonify({"status": f"Command sent: {data['command']}"})
-    return jsonify({"error": "No command provided"}), 400
 
 @app.route("/saved_servers.json")
 def serve_json():

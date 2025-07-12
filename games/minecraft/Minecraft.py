@@ -4,7 +4,8 @@ from pathlib import Path
 import urllib.request
 from games.Server import Server
 import subprocess
-from Server_manager import add_server
+from Server_manager import server_Manager
+
 
 class Minecraft_server(Server):
     
@@ -13,8 +14,7 @@ class Minecraft_server(Server):
         self.name = name
         super().__init__(name, "minecraft")
         super().create_server_dir()
-        self.save_to_json()
-        add_server(self.name , self)
+        server_Manager.add_server(self.name , self)
 
 
     def set_jar(self, jar_name):

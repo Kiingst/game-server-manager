@@ -1,10 +1,14 @@
 from flask import Blueprint, render_template, request, jsonify
 from Server_manager import server_Manager
 
+
+#TODO 
+# add creating a server
+# each server is a different ID
+
 minecraft_Blueprint = Blueprint("minecraft", __name__)
 
-serv_Man = server_Manager()
-server = None
+serv_Man = server_Manager("minecraft")
 
 @minecraft_Blueprint.route("/")
 def index():
@@ -12,25 +16,39 @@ def index():
 
 @minecraft_Blueprint.route("/start", methods=["POST"])
 def start():
-    server.start()
+    serv_Man.active_server.start()
     return jsonify({"status": "started"})
 
 @minecraft_Blueprint.route("/stop", methods=["POST"])
 def stop():
-    server.stop()
+    serv_Man.active_server.stop()
     return jsonify({"status": "stopped"})
 
 @minecraft_Blueprint.route("/command", methods=["POST"])
 def command():
     data = request.get_json()
     if "command" in data:
-        server.send_command(data["command"])
+        serv_Man.active_server.send_command(data["command"])
         return jsonify({"status": f"Command sent: {data['command']}"})
     return jsonify({"error": "No command provided"}), 400
+
+@minecraft_Blueprint.route("/get_servers")
+def get_servers():
+
+    return {
+        "message" : ", ".join(serv_Man.servers.keys())
+
+    }
 
 @minecraft_Blueprint.route("/set_server", methods=["POST"])
 def set_server():
     data = request.get_json()
+
     global server
-    if "name" in data:
-        server = serv_Man.get_server(data["name"])
+    print(data["name"])
+    print(serv_Man.servers)
+    if "name" in data and serv_Man.does_server_exist(data["name"]):
+        serv_Man.active_server = serv_Man.get_server(data["name"])
+        return {"message": f"Server '{data['name']}' set successfully"}, 200
+    else:
+        return {"error": "Server does not exist or name not provided"}, 400
