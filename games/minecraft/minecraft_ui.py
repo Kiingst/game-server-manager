@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify
 from Server_manager import server_Manager
+from games.minecraft.Minecraft import Minecraft_server
 
 
 #TODO 
@@ -36,9 +37,9 @@ def command():
 def get_servers():
 
     return {
-        "message" : ", ".join(serv_Man.servers.keys())
+        "message" : ", ".join(serv_Man.servers.keys()),
 
-    }
+    }, 200
 
 @minecraft_Blueprint.route("/set_server", methods=["POST"])
 def set_server():
@@ -52,3 +53,17 @@ def set_server():
         return {"message": f"Server '{data['name']}' set successfully"}, 200
     else:
         return {"error": "Server does not exist or name not provided"}, 400
+    
+
+@minecraft_Blueprint.route("/create-server", methods=["POST"])
+def create_server():
+    data = request.get_json()
+
+    x : str = data["name"]
+
+
+    serv_Man.add_server(Minecraft_server(x, serv_Man))
+
+    return {
+        "message" : f"added server {x}"
+    }, 200

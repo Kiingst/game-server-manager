@@ -9,12 +9,12 @@ from Server_manager import server_Manager
 
 class Minecraft_server(Server):
     
-    def __init__(self, name) -> None:
+    def __init__(self, name, Server_Man: server_Manager):
         self.jar = None
         self.name = name
         super().__init__(name, "minecraft")
         super().create_server_dir()
-        server_Manager.add_server(self.name , self)
+        Server_Man.add_server( self)
 
 
     def set_jar(self, jar_name):
@@ -68,6 +68,12 @@ class Minecraft_server(Server):
         }
         with open(filename, "w") as f:
             json.dump(json1, f)
+    
+    def to_dict(self):
+        return {
+            "name" : self.name,
+            "game" : self.game
+        }
 
     
     
