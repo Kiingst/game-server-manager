@@ -1,5 +1,6 @@
 import json
 import os
+from games.minecraft.Minecraft import Minecraft_server
 
 #this is here to easliy refrence server objects without re initalizing them
 
@@ -23,7 +24,7 @@ import os
 
 class server_Manager():
     def __init__(self, game: str) -> None:
-        self.active_servers = [] #server objects loaded form sersers_json still have to edit rest of code
+        self.active_servers = {} #server objects loaded form sersers_json still have to edit rest of code
         self.game = game
         self.servers_json = {}
         self.filepath = f"static/{self.game}saved_servers.json"
@@ -38,13 +39,22 @@ class server_Manager():
             with open(self.filepath, "r") as x:
                 print("servers were loaded from file")
                 self.servers_json = json.load(x)
+                self.load_from_file()
         except FileNotFoundError:
             self.servers_json = {}
         except json.JSONDecodeError as e:
             self.servers_json = {}
             print("Server file was corrupted or not valid JSON. Error:", e)
-        
         self.save_servers_json()
+
+
+    def load_from_file(self):
+       # self.active_servers = []  # Clear current active list
+        for server_name, data in self.servers_json.items():
+            server_object = Minecraft_server(server_name, self)
+            self.active_servers.update({
+                server_name : server_object
+            })
 
     def save_servers_json(self):
         os.makedirs(os.path.dirname(self.filepath), exist_ok=True)
@@ -52,20 +62,18 @@ class server_Manager():
         with open(self.filepath, "w") as f:
             json.dump(self.servers_json, f, indent=2)
     
-
-    def get_server(self, name):
-        return self.servers.get(name)
-
-    def add_server(self, server_object):
-        self.servers[server_object.name] = server_object
-        self.server_json[server_object.name] = server_object.to_dict()
-        print(self)
-        self.save_servers()
+    def add_server(self, server_name):
+        server_object = Minecraft_server(server_name, self)
+        
+        self.active_servers.update({
+                server_name : server_object
+            })
+        
+        self.servers_json[server_object.name] = server_object.to_dict()
+        self.save_servers_json()
     
     def does_server_exist(self, x):
-        return self.servers.get("name") == x
+        return any(s.name == x for s in self.active_servers)
     
-    def get_all_server_names(self):
-        return list(self.servers.keys())
 
 
