@@ -62,6 +62,7 @@ class server_Manager():
         with open(self.filepath, "w") as f:
             json.dump(self.servers_json, f, indent=2)
     
+    
     def add_server(self, server_name):
         server_object = Minecraft_server(server_name, self)
         

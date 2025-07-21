@@ -60,9 +60,7 @@ def create_server():
     data = request.get_json()
 
     x : str = data["name"]
-
-
-    serv_Man.add_server(Minecraft_server(x, serv_Man))
+    serv_Man.add_server(serv_Man, x)
 
     return {
         "message" : f"added server {x}"
