@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from Server_manager import server_Manager
+from Server_manager import server_Managers
 from games.minecraft.Minecraft import Minecraft_server
 
 
@@ -9,7 +9,7 @@ from games.minecraft.Minecraft import Minecraft_server
 
 minecraft_Blueprint = Blueprint("minecraft", __name__)
 
-serv_Man = server_Manager("minecraft")
+serv_Man = server_Managers("minecraft")
 
 @minecraft_Blueprint.route("/")
 def index():
@@ -58,10 +58,22 @@ def set_server():
 @minecraft_Blueprint.route("/create-server", methods=["POST"])
 def create_server():
     data = request.get_json()
+    x = {}
 
-    x : str = data["name"]
-    serv_Man.add_server(serv_Man, x)
+    x["name"] = data["name"]
+    x["config"] = data["config"]
+
+    Minecraft_server(x["name"], serv_Man, x["config"])
 
     return {
         "message" : f"added server {x}"
     }, 200
+
+
+
+
+#FLOW
+# create the server in mincraft ui
+# u give it to server manager
+# that server manager then saves all server locations and data to its own json file
+#

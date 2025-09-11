@@ -4,17 +4,21 @@ from pathlib import Path
 import urllib.request
 from games.Server import Server
 import subprocess
-from Server_manager import server_Manager
+from Server_manager import server_Managers
+
+
 
 
 class Minecraft_server(Server):
     
-    def __init__(self, name, Server_Man: server_Manager):
+    #TODO defind params of config when creating a server
+    def __init__(self, name, Server_Man: server_Managers, config : dict):
         self.jar = None
         self.name = name
         super().__init__(name, "minecraft")
         super().create_server_dir()
-        Server_Man.add_server( self)
+        Server_Man.add_server(self)
+
 
 
     def set_jar(self, jar_name):
@@ -59,6 +63,8 @@ class Minecraft_server(Server):
 
     def stop(self):
         self.send_command("stop")
+
+
 
     def save_to_json(self, filename="static/saved_servers.json"):
         json1 = {

@@ -22,9 +22,9 @@ from games.minecraft.Minecraft import Minecraft_server
 
 
 
-class server_Manager():
+class server_Managers():
     def __init__(self, game: str) -> None:
-        self.active_servers = {} #server objects loaded form sersers_json still have to edit rest of code
+        self.active_servers = [] #server objects loaded form sersers_json still have to edit rest of code
         self.game = game
         self.servers_json = {}
         self.filepath = f"static/{self.game}saved_servers.json"
@@ -48,13 +48,13 @@ class server_Manager():
         self.save_servers_json()
 
 
-    def load_from_file(self):
+   # def load_from_file(self):
        # self.active_servers = []  # Clear current active list
-        for server_name, data in self.servers_json.items():
-            server_object = Minecraft_server(server_name, self)
-            self.active_servers.update({
-                server_name : server_object
-            })
+   #     for server_name, data in self.servers_json.items():
+     #       server_object = Minecraft_server(server_name, self)
+   #         self.active_servers.update({
+   #             server_name : server_object
+   #         })
 
     def save_servers_json(self):
         os.makedirs(os.path.dirname(self.filepath), exist_ok=True)
@@ -63,15 +63,15 @@ class server_Manager():
             json.dump(self.servers_json, f, indent=2)
     
     
-    def add_server(self, server_name):
-        server_object = Minecraft_server(server_name, self)
+    def add_server(self, server : Minecraft_server):
         
-        self.active_servers.update({
-                server_name : server_object
-            })
+        self.active_servers.append(server)
+        #self.active_servers.update({
+        #        server_name : server_object
+        #    })
         
-        self.servers_json[server_object.name] = server_object.to_dict()
-        self.save_servers_json()
+        #self.servers_json[server_object.name] = server_object.to_dict()
+        #self.save_servers_json()
     
     def does_server_exist(self, x):
         return any(s.name == x for s in self.active_servers)
