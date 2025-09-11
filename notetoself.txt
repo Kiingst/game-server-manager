@@ -1,0 +1,17 @@
+I plan on restarting this project.
+
+i want to seperate the netcode from the server code i think
+
+Structure(from top to bottom):
+Server_Manager(this will managage a list of server_objects only starting with minecraft first)
+Servers(This will manage starting and stoping servers. getting their logs and all the basic server maintence )
+
+HTML:
+Flask - Our homepage will get its data from the server Manager object. You will see just a list of servers that you can click on.
+When you clik on one of those server objects you will be taken to a html page specific to the game. When that is selected the data of that page will 
+be populated by stat from the server object. 
+
+
+In the send you will get a simple html manager for a minecraft server. 
+
+first i will focus on the regular objects then I will go to the html after that is finished.
