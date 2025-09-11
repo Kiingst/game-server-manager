@@ -15,3 +15,17 @@ be populated by stat from the server object.
 In the send you will get a simple html manager for a minecraft server. 
 
 first i will focus on the regular objects then I will go to the html after that is finished.
+
+My main issue is loading my previously built varaibles from json or code. I will have to research on how that is done. Once i figure that out The rest of this project I think will be easy.
+Do research and put it here:
+
+What I will save to json persever:
+id, name, path, java version, server jar, server flags(jvm args), ports
+
+Storage format:
+SQLite database(i have to learn now)
+
+My plan now is that my ServerManager object on startup will add all the servers to itself from the database.
+
+
+

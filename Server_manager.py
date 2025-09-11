@@ -20,8 +20,6 @@ from games.minecraft.Minecraft import Minecraft_server
 
 
 
-
-
 class server_Managers():
     def __init__(self, game: str) -> None:
         self.active_servers = [] #server objects loaded form sersers_json still have to edit rest of code
