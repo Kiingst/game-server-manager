@@ -1,8 +1,10 @@
 import os
 import json
+import sqlite3
 from games.minecraft.minecraft_ui import minecraft_Blueprint
 from flask import Flask, render_template, request, jsonify, send_file, Blueprint
 from pathlib import Path
+
 
 #An ALL in one video game server manager that can take config files and change how it acts depending on the game
 
@@ -138,6 +140,13 @@ class Minecraft_server(Server):
             "name" : self.name,
             "game" : self.game
         }
+
+
+
+#before anything create data base
+conn = sqlite3.connect('my_database.db') 
+print("Database connected successfully!")
+
 
 
 
