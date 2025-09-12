@@ -37,7 +37,7 @@ class Minecraft_server(Server):
         self.jar_path = config["jar_path"]
         self.jvm_arguments = config["jvm_arguments"]
         self.server_properties = config["server_properties"]
-
+        self.process = None
         
 
 
@@ -47,28 +47,32 @@ class Minecraft_server(Server):
             raise FileNotFoundError(f"JAR file not found at {expected_path}")
 
         self.jar_path = expected_path
-        print(f"JAR path set to: {self.jar_path}")
-
         self.save_to_DB()
     
 
     def start(self):
+        if not self.jar_path:
+            raise RuntimeError("jar_path not set")
+
+            arguments = ["java"] + self.jvm_arguments.split() + ["-jar", str(self.jar_path)]
         self.process = subprocess.Popen(
 
-            ['java', "-Xmx2g", '-Xms1g', '-jar', 'server.jar'],
+            arguments,
             cwd = self.base_path,
             stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             text=True
         )
     
-    def send_command(self, command):
-        print(f"{self.process}")
-        if self.process and self.process.stdin:
+    def send_command(self, command: str):
+        if not self.process or self.process.poll() is not None or not self.process.stdin:
+            raise RuntimeError("server not running")
+        try:
             self.process.stdin.write(command + "\n")
             self.process.stdin.flush()
-            print(f"Sent command: {command}")
-        else:
-            print("Server is not running or stdin not available.")
+        except Exception as e:
+            raise RuntimeError(f"failed to send command: {e}") from e
 
     def check_status(self) -> bool:
 
@@ -77,10 +81,25 @@ class Minecraft_server(Server):
         else:
             return False
 
-    def stop(self):
+    def stop(self, wait: bool = True, timeout: float | None = 60):
+    if not self.check_status():
+        return
+    try:
         self.send_command("stop")
+        if wait:
+            self.process.wait(timeout=timeout)
+    except Exception:
+        try:
+            self.process.terminate()
+            if wait:
+                self.process.wait(timeout=timeout)
+        finally:
+            pass
 
     
     def save_to_DB(self):
-        db.save_server(self.UUID, self.name, self.game,self.jar_path, self.jvm_arguments,self.server_properties)
-        
+        db.save_server(self.UUID, self.name, self.game,str(self.jar_path), self.jvm_arguments,self.server_properties)
+    
+    def delete_server():
+        self.stop(wait=False)
+        self.db.delete_server(self.uuid)
