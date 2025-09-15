@@ -21,14 +21,15 @@ class Minecraft_Server_Manager():
             self.active_servers.append(Minecraft_server(server_config))
                         
     
-    def add_server(self):   
-        pass
-
-    def create_server():
-        pass
+    def create_server(self, config1):   
+        server = Minecraft_Server(config1)
+        self.active_servers.append(server)
     
-    def delete_server():
-        pass
+    def delete_server(self, server_uuid):
+        for server in self.active_servers:
+            if server_uuid == server.uuid:
+                server.delete_server()
+                active_servers.remove(server)
     
     def get_server_from_db(uuid):
         conn = sqlite3.connect("server_database.db")
@@ -44,7 +45,10 @@ class Minecraft_Server_Manager():
         return dict(row)
     
     def list_active_servers():
-        pass
+        x = 1
+        for server in self.active_servers:
+            print(f"{x}. {server.name} UUID: {server.uuid}")
+            x += 1
     
 
     

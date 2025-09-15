@@ -5,7 +5,6 @@ from pathlib import Path
 import urllib.request
 from games.Server import Server
 import subprocess
-from Server_manager import server_Managers
 
 from .minecraft_db import ServerDB
 
@@ -22,17 +21,17 @@ server_properties
 
 
 
-class Minecraft_server(Server):
+class Minecraft_Server(Server):
 
 
     def __init__(self, config : dict):
 
         self.db = ServerDB()
+        self.uuid = config["uuid"]
 
         #init parent SERVER to CREATE DIR AND SET UUID IF NONEXISTANT
         super().__init__(config["name"], config["uuid"] )
         self.name = config["name"]
-        self.uuid = config["uuid"]
         self.game = config["game"]
         self.jar_path = config["jar_path"]
         self.jvm_arguments = config["jvm_arguments"]
@@ -103,3 +102,10 @@ class Minecraft_server(Server):
     def delete_server():
         self.stop(wait=False)
         self.db.delete_server(self.uuid)
+
+    #this is here to allow you to compare server objects by the uuid with ==
+    def __eq__(self, other):
+        if isinstance(other, Minecraft_Server):
+            return self.uuid == other.uuid
+        return NotImplemeted
+

@@ -8,7 +8,7 @@ class Server:
 
     def __init__(self, name, uuid="") -> None:
 
-        #if you give a UUID generate one
+        #if you dont give a UUID generate one
         if uuid == "":
             self.UUID = str(UUID.uuid4())
         else

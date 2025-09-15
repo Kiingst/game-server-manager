@@ -1,10 +1,10 @@
 import os
 import json
 import sqlite3
-from games.minecraft.minecraft_ui import minecraft_Blueprint
+#from games.minecraft.minecraft_ui import minecraft_Blueprint
 from flask import Flask, render_template, request, jsonify, send_file, Blueprint
 from pathlib import Path
-
+from server_manager.server_manager import Minecraft_Server_Manager
 
 #An ALL in one video game server manager that can take config files and change how it acts depending on the game
 
@@ -38,11 +38,20 @@ from pathlib import Path
 
 
 #before anything create data base
-conn = sqlite3.connect('my_database.db') 
-print("Database connected successfully!")
+
+server_man = Minecraft_Server_Manager()
 
 
+server_man.create_server({
+    "name" : "kingston",
+    "uuid" : "", #this will generate a uuid
+    "game" : "minecraft",
+    "jar_path" : "",
+    "jvm_arguments" : "",
+    "server_properties" : ""})
 
+
+server_man.list_active_servers()
 
 
 
@@ -68,7 +77,7 @@ def serve_json():
     return send_file("saved_servers.json")
 
 
-
+"""
 #Blueprint minecraft
 
 serv_Man = server_Manager("minecraft")
@@ -131,7 +140,7 @@ def create_server():
         "message" : f"added server {x}"
     }, 200
 
-
+"""
 
 
 """"
