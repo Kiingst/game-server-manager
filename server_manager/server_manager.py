@@ -12,13 +12,13 @@ class Minecraft_Server_Manager():
 
         self.db = ServerDB()
         self.active_servers = [] 
-        servers_array = self.db.get_all_servers_from_DB()
+        servers_array = self.db.get_all_servers()
         self.initialize_servers(servers_array)
 
 
     def initialize_servers(self, array):
         for server_config in array:
-            self.active_servers.append(Minecraft_server(server_config))
+            self.active_servers.append(Minecraft_Server(server_config))
                         
     
     def create_server(self, config1):   
@@ -44,7 +44,7 @@ class Minecraft_Server_Manager():
             return None
         return dict(row)
     
-    def list_active_servers():
+    def list_active_servers(self):
         x = 1
         for server in self.active_servers:
             print(f"{x}. {server.name} UUID: {server.uuid}")

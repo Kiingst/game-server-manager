@@ -3,7 +3,7 @@ import sqlite3
 import json
 from pathlib import Path
 import urllib.request
-from games.Server import Server
+from .server import Server
 import subprocess
 
 from .minecraft_db import ServerDB
@@ -37,6 +37,7 @@ class Minecraft_Server(Server):
         self.jvm_arguments = config["jvm_arguments"]
         self.server_properties = config["server_properties"]
         self.process = None
+        self.save_to_DB()
         
 
 
@@ -81,23 +82,23 @@ class Minecraft_Server(Server):
             return False
 
     def stop(self, wait: bool = True, timeout: float | None = 60):
-    if not self.check_status():
-        return
-    try:
-        self.send_command("stop")
-        if wait:
-            self.process.wait(timeout=timeout)
-    except Exception:
+        if not self.check_status():
+            return
         try:
-            self.process.terminate()
+            self.send_command("stop")
             if wait:
                 self.process.wait(timeout=timeout)
-        finally:
-            pass
+        except Exception:
+            try:
+                self.process.terminate()
+                if wait:
+                    self.process.wait(timeout=timeout)
+            finally:
+                pass
 
     
     def save_to_DB(self):
-        db.save_server(self.UUID, self.name, self.game,str(self.jar_path), self.jvm_arguments,self.server_properties)
+        self.db.save_server(self.uuid, self.name, self.game,str(self.jar_path), self.jvm_arguments,self.server_properties)
     
     def delete_server():
         self.stop(wait=False)

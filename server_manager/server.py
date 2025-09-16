@@ -1,21 +1,23 @@
 from pathlib import Path
 import os
-import UUID
+import uuid
 
 
 
 class Server:
 
-    def __init__(self, name, uuid="") -> None:
-
+    def __init__(self, name, uuids="") -> None:
+        print("am i getting here")
         #if you dont give a UUID generate one
-        if uuid == "":
-            self.UUID = str(UUID.uuid4())
-        else
-            self.UUID = uuid
+        if self.uuid == "":
+            self.uuid = str(uuid.uuid4())
+            print("am i getting here22")
+            print(f"set uuid to {self.uuid}")
+        else:
+            self.uuid = uuids
 
         self.name = name
-        self.base_path = Path("servers") / f"{self.name}_{self.UUID}"
+        self.base_path = Path("servers") / f"{self.name}_{self.uuid}"
         self.create_server_dir()
         
 

@@ -13,7 +13,7 @@ class ServerDB:
 
     def _init_db(self):
         with self._conn() as conn:
-            cursor.execute(""" CREATE TABLE IF NOT EXISTS servers (
+            conn.execute(""" CREATE TABLE IF NOT EXISTS servers (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 uuid TEXT UNIQUE NOT NULL,
                 name TEXT NOT NULL,
