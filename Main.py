@@ -35,21 +35,22 @@ from server_manager.server_manager import Minecraft_Server_Manager
 #each servers bluepint will handle selecting the specific server for that game and running its commands
 
 
+#TODO create a user database along server_database to store users
 
 
 #before anything create data base
 
 server_man = Minecraft_Server_Manager()
 
-
+"""
 server_man.create_server({
     "name" : "kingston",
-    "uuid" : "", #this will generate a uuid
+    "uuid" : "", #this will generate a uuid 
     "game" : "minecraft",
     "jar_path" : "",
     "jvm_arguments" : "",
     "server_properties" : ""})
-
+"""
 
 server_man.list_active_servers()
 
@@ -215,4 +216,4 @@ main()
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, use_reloader=False)
