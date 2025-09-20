@@ -39,6 +39,7 @@ minecraft_Blueprint = Blueprint("minecraft", __name__)
 
 app.register_blueprint(minecraft_Blueprint, url_prefix="/minecraft")
 
+#TODO create a user database along server_database to store users
 
 
 #before anything create data base
@@ -48,7 +49,7 @@ server_man = Minecraft_Server_Manager()
 """
 server_man.create_server({
     "name" : "kingston",
-    "uuid" : "", #this will generate a uuid
+    "uuid" : "", #this will generate a uuid 
     "game" : "minecraft",
     "jar_path" : "",
     "jvm_arguments" : "",
