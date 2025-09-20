@@ -34,6 +34,10 @@ from server_manager.server_manager import Minecraft_Server_Manager
 # each game will have its own blueprint meaning that it will have its own webpage 
 #each servers bluepint will handle selecting the specific server for that game and running its commands
 
+app = Flask(__name__)
+minecraft_Blueprint = Blueprint("minecraft", __name__)
+
+app.register_blueprint(minecraft_Blueprint, url_prefix="/minecraft")
 
 
 
@@ -41,7 +45,7 @@ from server_manager.server_manager import Minecraft_Server_Manager
 
 server_man = Minecraft_Server_Manager()
 
-
+"""
 server_man.create_server({
     "name" : "kingston",
     "uuid" : "", #this will generate a uuid
@@ -49,7 +53,7 @@ server_man.create_server({
     "jar_path" : "",
     "jvm_arguments" : "",
     "server_properties" : ""})
-
+"""
 
 server_man.list_active_servers()
 
@@ -58,10 +62,6 @@ server_man.list_active_servers()
 
 
 #load flask add minecraft blueprint
-app = Flask(__name__)
-minecraft_Blueprint = Blueprint("minecraft", __name__)
-
-app.register_blueprint(minecraft_Blueprint, url_prefix="/minecraft")
 
 @app.route("/")
 def index():
@@ -215,4 +215,4 @@ main()
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True, use_reloader=False)

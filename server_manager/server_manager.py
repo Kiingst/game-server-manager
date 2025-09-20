@@ -2,6 +2,7 @@ import json
 import os
 from .minecraft_server import Minecraft_Server
 from .minecraft_db import ServerDB
+import pdb
 
 
 
@@ -13,6 +14,7 @@ class Minecraft_Server_Manager():
         self.db = ServerDB()
         self.active_servers = [] 
         servers_array = self.db.get_all_servers()
+        #pdb.breakpoint()
         self.initialize_servers(servers_array)
 
 

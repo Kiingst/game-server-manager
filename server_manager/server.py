@@ -7,11 +7,9 @@ import uuid
 class Server:
 
     def __init__(self, name, uuids="") -> None:
-        print("am i getting here")
         #if you dont give a UUID generate one
-        if self.uuid == "":
+        if uuids == "":
             self.uuid = str(uuid.uuid4())
-            print("am i getting here22")
             print(f"set uuid to {self.uuid}")
         else:
             self.uuid = uuids
