@@ -1,8 +1,11 @@
 import os
 import json
 import sqlite3
-#from games.minecraft.minecraft_ui import minecraft_Blueprint
+
 from flask import Flask, render_template, request, jsonify, send_file, Blueprint
+from flask_httpauth import HTTPBasicAuth
+import bcrypt
+
 from pathlib import Path
 from server_manager.server_manager import Minecraft_Server_Manager
 
@@ -36,14 +39,18 @@ from server_manager.server_manager import Minecraft_Server_Manager
 
 app = Flask(__name__)
 minecraft_Blueprint = Blueprint("minecraft", __name__)
+auth = HTTPBasicAuth()
 
-app.register_blueprint(minecraft_Blueprint, url_prefix="/minecraft")
+app.secret_key = "testing_dev"
+admin_password = b"testing_remove_this_later" # bcrypt works with bytes
+hashed_password = bcrypt.hashpw(admin_password, bcrypt.gensalt())
+print(f"Hashed Password: {hashed_password}")
 
-#TODO create a user database along server_database to store users
+#app.register_blueprint(minecraft_Blueprint, url_prefix="/minecraft")
+
 
 
 #before anything create data base
-
 server_man = Minecraft_Server_Manager()
 
 """
@@ -65,17 +72,15 @@ server_man.list_active_servers()
 #load flask add minecraft blueprint
 
 @app.route("/")
+@auth.login_required
 def index():
     #return render_template("index.html")
     return render_template("home.html")
 
-@app.route("/<user>", methods=["POST"])
-def user():
-    return render_template()
-
-@app.route("/saved_servers.json")
-def serve_json():
-    return send_file("saved_servers.json")
+@auth.verify_password
+def verify(user, password):
+    # fixed username like "guest"; only the password matters
+    return user == "guest" and bcrypt.checkpw(password.encode(), hashed_password)
 
 
 """
