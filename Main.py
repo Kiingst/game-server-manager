@@ -1,6 +1,7 @@
 import os
 import json
 import sqlite3
+import docker 
 
 from flask import Flask, render_template, request, jsonify, send_file, Blueprint
 from flask_httpauth import HTTPBasicAuth
