@@ -2,6 +2,7 @@ import sqlite3
 
 class ServerRepo:
     def __init__(self):
+        
         #in init we should make sure the data base exist, if not create it
         self.db_path = "server_database.db"
         conn = sqlite3.connect(self.db_path)
@@ -9,7 +10,7 @@ class ServerRepo:
         conn.cursor().execute(""" 
         CREATE TABLE IF NOT EXISTS servers (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        uuid TEXT NOT NULL UNIQUE,
+        uuid TEXT UNIQUE,
         name TEXT NOT NULL UNIQUE,
         game_id TEXT NOT NULL,
         status TEXT NOT NULL,
