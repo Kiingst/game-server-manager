@@ -1,4 +1,5 @@
-from flask import Blueprint, render_template, jsonify
+from flask import Blueprint, render_template, jsonify, request, current_app
+
 
 main_blueprint = Blueprint("main", __name__)
 
@@ -21,8 +22,8 @@ def create_server():
     path = data.get("path")
     port = data.get("port")
 
-    # Create a new server instance using the ServerService
-    server_service = ServerService(ServerRepository())
+    #refrence current_app where server_service is made and tell it to create a server
+    server_service = current_app.serv_Service
     new_server = server_service.create_server(name, game_id, path, port)
 
     # Return the created server as JSON

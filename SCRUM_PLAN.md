@@ -71,7 +71,7 @@ At the end of each scrum:
 - Write down what broke.
 - Move unfinished work into a later scrum.
 
-## Scrum 0: Project Cleanup
+## Scrum 0: Project Cleanup DONE
 
 ### Goal
 
@@ -79,13 +79,13 @@ Make the project easier to understand before adding more features.
 
 ### Tasks
 
-- Decide that `Run.py` and the `app/` folder are the main application.
-- Treat `Main.py` as old prototype code.
-- Update `README.md` with the project goal and setup notes.
-- Make file and class names consistent.
-- Add real dependencies to `requirements.txt`.
-- Make sure local databases, server folders, virtual environments, and caches are ignored by Git.
-- Create a clear project folder structure.
+- Decide that `Run.py` and the `app/` folder are the main application. DONE
+- Treat `Main.py` as old prototype code. DONE
+- Update `README.md` with the project goal and setup notes. DONE
+- Make file and class names consistent. DONE
+- Add real dependencies to `requirements.txt`. DONE
+- Make sure local databases, server folders, virtual environments, and caches are ignored by Git. DONE
+- Create a clear project folder structure. DONE
 
 ### Done When
 
