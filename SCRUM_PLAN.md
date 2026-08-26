@@ -89,9 +89,9 @@ Make the project easier to understand before adding more features.
 
 ### Done When
 
-- The Flask app starts from one command.
-- The active code path is clear.
-- Old prototype code is no longer confusing the project direction.
+- The Flask app starts from one command. DONE
+- The active code path is clear. DONE
+- Old prototype code is no longer confusing the project direction. DONE
 
 ## Scrum 1: Server Database Foundation
 
@@ -101,7 +101,7 @@ Create, save, load, list, update, and delete server records.
 
 ### Tasks
 
-- Fix server creation so `uuid` is saved to SQLite.
+- Fix server creation so `uuid` is saved to SQLite. DONE
 - Implement `list_all()`.
 - Convert database rows into `ServerInstance` objects.
 - Add a `settings_json` field for game-specific options.
@@ -111,8 +111,8 @@ Create, save, load, list, update, and delete server records.
 
 ### Done When
 
-- A server record can be created.
-- The app can restart.
+- A server record can be created. DONE
+- The app can restart. 
 - The same server record can still be loaded from SQLite.
 - Server records can be listed, updated, and deleted.
 

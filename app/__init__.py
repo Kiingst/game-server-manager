@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, send_file, Blueprint
 
+
 def create_app():
     app = Flask(__name__, template_folder="../templates")
     #minecraft_Blueprint = Blueprint("minecraft", __name__)
@@ -11,10 +12,10 @@ def create_app():
    # print(f"Hashed Password: {hashed_password}")
 
     from app.repos.ServerRepository import ServerRepo
-    serv_Repo = ServerRepo
+    app.serv_Repo = ServerRepo()
 
     from app.services.ServerService import ServerService
-    serv_Service = ServerService(serv_Repo)
+    app.serv_Service = ServerService(app.serv_Repo)
 
     
 

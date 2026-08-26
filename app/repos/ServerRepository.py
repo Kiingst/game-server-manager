@@ -28,14 +28,16 @@ class ServerRepo:
 
 
     def create(self, server):
+
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
                 """
                 INSERT INTO servers
-                    (name, game_id, status, path, port, container_id, last_error)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                    (uuid, name, game_id, status, path, port, container_id, last_error)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
+                    server.uuid,
                     server.name,
                     server.game_id,
                     server.status,
@@ -64,7 +66,9 @@ class ServerRepo:
 
     def list_all(self):
         pass
-        #list all servers in data base return a json list
+        #list all servers in data base return a dict of all servers in db
+
+        
 
     def update(self, server):
         if server.id is None:
