@@ -1,15 +1,31 @@
-server/
-/servers
-static/
+# Secrets and local configuration
+.env
+.env.*
 
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
 
-# Python bytecode
-*.pyc
+# Generated game-server data
+/servers/
+/instance-data/
+
+# Python
 __pycache__/
-
-# Temporary files
-*.tmp
-*~
+*.py[cod]
 .pytest_cache/
 .mypy_cache/
-.ipynb_checkpoints/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor and operating-system files
+.DS_Store
+.vscode/
+.idea/
+*.tmp
+*~
