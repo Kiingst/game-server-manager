@@ -102,19 +102,18 @@ Create, save, load, list, update, and delete server records.
 ### Tasks
 
 - Fix server creation so `uuid` is saved to SQLite. DONE
-- Implement `list_all()`.
-- Convert database rows into `ServerInstance` objects.
-- Add a `settings_json` field for game-specific options.
-- Add validation for server name, game ID, path, and port.
-- Make sure duplicate names are handled cleanly.
+- Implement `list_all()`. DONE
+- Convert database rows into `ServerInstance` objects. DONE
+- Add validation for server name, game ID, path, and port. DONE
+- Make sure duplicate names are handled cleanly. DONE
 - Add basic manual tests or unit tests for the repository.
 
 ### Done When
 
 - A server record can be created. DONE
-- The app can restart. 
-- The same server record can still be loaded from SQLite.
-- Server records can be listed, updated, and deleted.
+- The app can restart. DONE
+- The same server record can still be loaded from SQLite. DONE
+- Server records can be listed, updated, and deleted. Done part still need update
 
 ## Scrum 2: Basic API
 
@@ -124,21 +123,21 @@ Control saved server records through HTTP endpoints.
 
 ### Tasks
 
-- Add `GET /api/servers`.
-- Add `POST /api/servers`.
-- Add `GET /api/servers/<id>`.
-- Add `DELETE /api/servers/<id>`.
-- Return JSON responses.
-- Use correct status codes.
-- Return `404` for missing servers.
-- Return `400` for invalid create requests.
+- Add `GET /api/servers`. Done
+- Add `POST /api/servers`. Done
+- Add `GET /api/servers/<id>`. Done
+- Add `DELETE /api/servers/<id>`. Done
+- Return JSON responses. DONE
+- Use correct status codes. DONE
+- Return `404` for missing servers. DONE
+- Return `400` for invalid create requests. DONE
 
 ### Done When
 
-- Servers can be created through an HTTP request.
-- Servers can be listed through an HTTP request.
-- A single server can be viewed by ID.
-- A server can be deleted by ID.
+- Servers can be created through an HTTP request. DONE
+- Servers can be listed through an HTTP request. DONE
+- A single server can be viewed by ID. DONE
+- A server can be deleted by ID. DONE
 
 ## Scrum 3: Adapter System
 

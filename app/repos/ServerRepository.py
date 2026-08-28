@@ -1,5 +1,7 @@
 import sqlite3
 
+from app.server_models.ServerInstance import ServerInstance
+
 class ServerRepo:
     def __init__(self):
         
@@ -27,7 +29,7 @@ class ServerRepo:
 
 
 
-    def create(self, server):
+    def create(self, server: ServerInstance):
 
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
@@ -55,18 +57,22 @@ class ServerRepo:
 
         
 
-    def get(self, server_id):
+    def get(self, uuid):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
-                "SELECT * FROM servers WHERE id = ?",
-                (server_id,),
+                "SELECT * FROM servers WHERE uuid = ?",
+                (uuid,),
             )
             return cursor.fetchone()
         
 
-    def list_all(self):
-        pass
-        #list all servers in data base return a dict of all servers in db
+    def list_all_server_uuids(self):
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute(
+                "SELECT uuid FROM servers"
+            )
+            return [row[0] for row in cursor.fetchall()]
+            
 
         
 
@@ -101,11 +107,11 @@ class ServerRepo:
 
             return cursor.rowcount > 0
 
-    def delete(self, server_id):
+    def delete(self, uuid):
         with sqlite3.connect(self.db_path) as conn:
             cursor = conn.execute(
-                "DELETE FROM servers WHERE id = ?",
-                (server_id,),
+                "DELETE FROM servers WHERE uuid = ?",
+                (uuid,),
             )
 
             return cursor.rowcount > 0

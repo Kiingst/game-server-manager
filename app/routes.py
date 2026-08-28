@@ -1,7 +1,12 @@
+from dataclasses import asdict
+from unittest import result
+
 from flask import Blueprint, render_template, jsonify, request, current_app
 
+from jsonschema import validate, ValidationError # use this to validate json
+
 main_blueprint = Blueprint("main", __name__)
-server_service = current_app.serv_Service
+
 
 @main_blueprint.get("/")
 def home():
@@ -10,8 +15,9 @@ def home():
 
 @main_blueprint.get("/api/servers")
 def get_servers():
-    servers = server_service.list_servers()
-    return jsonify([server.__dict__ for server in servers]), 200
+    server_service = current_app.serv_Service
+    servers = server_service.list_servers_as_dict()
+    return jsonify(servers), 200
 
 
 @main_blueprint.post("/api/servers")
@@ -25,17 +31,36 @@ def create_server():
 
     #use datacalss
     
-
+    server_service = current_app.serv_Service
     #refrence current_app where server_service is made and tell it to create a server
-    new_server = server_service.create_server(name, game_id, path, port)
-
     # Return the created server as JSON
-    return jsonify(new_server.__dict__), 201
 
-@main_blueprint.get("/api/servers/<id>")
-def get_specific_server(id):
-    pass
+    new_server_dict = server_service.create_server(name, game_id, path, port)
 
-@main_blueprint.delete("/api/servers/<id>")
-def delete_specific_server(id):
-    pass
+    return jsonify(new_server_dict), 400 if "error" in new_server_dict else 201
+
+
+@main_blueprint.get("/api/servers/<uuid>")
+def get_specific_server(uuid):
+    server_service = current_app.serv_Service
+    server = server_service.list_server_as_dict(uuid)
+    if server:
+        return jsonify(server), 200
+    else:
+        return jsonify({"error": "Server not found"}), 404
+    
+
+@main_blueprint.delete("/api/servers/<uuid>")
+def delete_specific_server(uuid):
+    server_service = current_app.serv_Service
+    result = server_service.delete_server(uuid)
+
+    return jsonify(result), 200 if "message" in result else 500
+
+@main_blueprint.patch("/api/servers/<uuid>")
+def update_specific_server(uuid):
+    server_service = current_app.serv_Service
+    data = request.get_json()
+    result = server_service.update_server(uuid, data)
+
+    return jsonify(result), 200 if "message" in result else 400
