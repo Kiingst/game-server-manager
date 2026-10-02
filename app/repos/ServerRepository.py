@@ -77,7 +77,7 @@ class ServerRepo:
         
 
     def update(self, server):
-        if server.id is None:
+        if server.uuid is None:
             raise ValueError("Cannot update a server without an id")
 
         with sqlite3.connect(self.db_path) as conn:

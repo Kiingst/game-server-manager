@@ -61,7 +61,12 @@ def delete_specific_server(uuid):
 def update_specific_server(uuid):
     server_service = current_app.serv_Service
     data = request.get_json()
-    #editable_fields = {"name", "game_id", "port"}
+
+    valid_schema = server_service.get_update_schema()
+    try:
+        validate(instance=data, schema=valid_schema)
+    except ValidationError as e:
+        return jsonify({"error": "Invalid request data", "details": e.message}), 400
 
     result = server_service.update_server(uuid, data)
 

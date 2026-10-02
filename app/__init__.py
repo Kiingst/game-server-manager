@@ -14,10 +14,12 @@ def create_app():
     from app.repos.ServerRepository import ServerRepo
     app.serv_Repo = ServerRepo()
 
+    from app.adapters.registry import ADAPTERS
     from app.services.ServerService import ServerService
-    app.serv_Service = ServerService(app.serv_Repo)
+    app.serv_Service = ServerService(app.serv_Repo, ADAPTERS)
 
-    
+    from app.services.ContainerService import ContainerService
+    app.container_service = ContainerService()
 
 
 
@@ -26,5 +28,4 @@ def create_app():
     app.register_blueprint(main_blueprint)
 
     return app
-
 
